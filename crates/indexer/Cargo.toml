@@ -1,0 +1,52 @@
+[package]
+name = "aptos-indexer"
+description = "Aptos Indexer"
+version = "0.1.0"
+
+edition = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+
+aptos-api = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-api"}
+aptos_api_types={ git="https://github.com/aptos-labs/aptos-core.git",package="aptos-api-types"}
+aptos-config =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-config"}
+aptos-bitvec = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-bitvec"}
+aptos-logger = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-logger"}
+aptos-mempool = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-mempool"}
+aptos-metrics-core = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-metrics-core"}
+aptos-runtimes = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-runtimes"}
+aptos-storage-interface = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-storage-interface"}
+aptos-types = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-types"}
+aptos-vm =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-vm"}
+anyhow = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+bigdecimal = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+diesel = { workspace = true }
+num_enum = { workspace = true }
+diesel_migrations = { workspace = true }
+dotenv = { workspace = true }
+field_count = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+once_cell = { workspace = true }
+regex = { workspace = true }
+reqwest = { workspace = true }
+reqwest-middleware = { workspace = true }
+reqwest-retry = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+uuid = {workspace = true }
+
+
+[dev-dependencies]
+# aptos-api-test-context = { workspace = true }
+# dotenv = "0.15.0"
+
+

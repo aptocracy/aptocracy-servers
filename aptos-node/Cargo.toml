@@ -1,0 +1,83 @@
+[package]
+name = "aptos-node"
+description = "Aptos node"
+version = "0.1.0"
+
+edition = { workspace = true }
+rust-version = { workspace = true }
+
+
+[dependencies]
+
+aptos-api = { git="https://github.com/aptos-labs/aptos-core",package="aptos-api"}
+aptos-backup-service =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-backup-service"}
+aptos-build-info =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-build-info"}
+aptos-cached-packages =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-cached-packages"}
+aptos-channels =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-channels"}
+aptos-config =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-config"}
+aptos-consensus =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-consensus"}
+aptos-consensus-notifications = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-consensus-notifications"}
+aptos-crash-handler = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-crash-handler"}
+aptos-crypto =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-crypto"}
+aptos-data-client = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-data-client"}
+aptos-data-streaming-service = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-data-streaming-service"}
+aptos-db = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-db"}
+aptos-event-notifications =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-event-notifications"}
+aptos-executor = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-executor"}
+aptos-executor-types = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-executor-types"}
+aptos-framework = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-framework"}
+aptos-genesis = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-genesis"}
+aptos-indexer = { path='../crates/indexer',optional=true}
+# aptos-indexer = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-indexer",optional=true}
+aptos-indexer-grpc-fullnode =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-indexer-grpc-fullnode"}
+aptos-infallible =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-infallible"}
+aptos-inspection-service = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-inspection-service"}
+aptos-logger = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-logger"}
+aptos-mempool = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-mempool"}
+aptos-mempool-notifications = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-mempool-notifications"}
+aptos-network = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-network"}
+aptos-network-builder = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-network-builder"}
+aptos-node-identity ={ git="https://github.com/aptos-labs/aptos-core.git",package="aptos-node-identity"}
+aptos-peer-monitoring-service-client = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-peer-monitoring-service-client"}
+aptos-peer-monitoring-service-server = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-peer-monitoring-service-server"}
+aptos-peer-monitoring-service-types = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-peer-monitoring-service-types"}
+aptos-runtimes = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-runtimes"}
+aptos-secure-storage = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-secure-storage"}
+aptos-state-sync-driver = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-state-sync-driver"}
+aptos-state-view = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-state-view"}
+aptos-storage-interface = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-storage-interface"}
+aptos-storage-service-client = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-storage-service-client"}
+aptos-storage-service-server =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-storage-service-server"}
+aptos-storage-service-types =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-storage-service-types"}
+aptos-telemetry =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-telemetry"}
+aptos-temppath = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-temppath"}
+aptos-time-service = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-time-service"}
+aptos-types = { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-types"}
+aptos-vm =  { git="https://github.com/aptos-labs/aptos-core.git",package="aptos-vm"}
+bcs = { workspace = true }
+actix-web = { workspace = true }
+clap = { workspace = true }
+anyhow = { workspace = true }
+fail = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+maplit = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+url = { workspace = true }
+
+[target.'cfg(unix)'.dependencies]
+jemallocator = { workspace = true }
+
+[features]
+# assert-private-keys-not-cloneable = ["aptos-crypto/assert-private-keys-not-cloneable"]
+# check-vm-features = []
+# consensus-only-perf-test = ["aptos-executor/consensus-only-perf-test", "aptos-mempool/consensus-only-perf-test", "aptos-db/consensus-only-perf-test"]
+# default = []
+# failpoints = ["fail/failpoints", "aptos-consensus/failpoints", "aptos-executor/failpoints", "aptos-mempool/failpoints", "aptos-api/failpoints"]
+indexer = ["aptos-indexer"]
+# tokio-console = ["aptos-logger/tokio-console"]
