@@ -38,7 +38,7 @@ pub struct Proposal {
     pub state: i32,
     pub vote_threshold: String,
     pub voting_finalized_at: Option<i64>,
-    pub proposal_type: String,
+    pub proposal_type: Option<String>,
 }
 
 #[derive(Queryable, Debug, Clone, Associations, Identifiable)]
@@ -448,7 +448,7 @@ impl Proposal {
             voting_finalized_at: map_to_f64(self.voting_finalized_at),
             vote_options,
             vote_records,
-            proposal_type: self.proposal_type,
+            proposal_type: self.proposal_type.unwrap(),
         }
     }
 }

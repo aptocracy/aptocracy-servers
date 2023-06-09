@@ -85,14 +85,6 @@ diesel::table! {
 }
 
 diesel::table! {
-    scripts (script_hash) {
-        script_hash -> Text,
-        proposal_type -> Int4,
-        bytecode -> Text,
-    }
-}
-
-diesel::table! {
     collection_datas (collection_data_id_hash, transaction_version) {
         collection_data_id_hash -> Varchar,
         transaction_version -> Int8,
@@ -321,15 +313,6 @@ diesel::table! {
     }
 }
 
-diesel::allow_columns_to_appear_in_same_group_by_clause!(
-    proposal::id,
-    vote_record::member_address,
-    vote_record::proposal_id,
-    vote_record::elected_options,
-    vote_record::voter_weight,
-    vote_record::voted_at
-);
-
 diesel::table! {
     indexer_status (db) {
         db -> Varchar,
@@ -405,8 +388,6 @@ diesel::table! {
         name -> Text,
         creator -> Text,
         default_role -> Text,
-        image -> Nullable<Text>,
-        description -> Nullable<Text>,
         governing_coin -> Text,
         governing_collection_info -> Text,
         invite_only -> Bool,
@@ -416,6 +397,8 @@ diesel::table! {
         treasury_count -> Int4,
         role_config -> Text,
         created_at -> Timestamp,
+        image -> Nullable<Text>,
+        description -> Nullable<Text>,
         main_treasury -> Nullable<Text>,
     }
 }
@@ -458,7 +441,7 @@ diesel::table! {
         state -> Int4,
         vote_threshold -> Text,
         voting_finalized_at -> Nullable<Int8>,
-        proposal_type -> Text,
+        proposal_type -> Nullable<Text>,
     }
 }
 
@@ -472,6 +455,14 @@ diesel::table! {
         should_pass -> Bool,
         transaction_timestamp -> Timestamp,
         inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    scripts (script_hash) {
+        script_hash -> Text,
+        proposal_type -> Int4,
+        bytecode -> Nullable<Bytea>,
     }
 }
 
@@ -722,6 +713,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     processor_statuses,
     proposal,
     proposal_votes,
+    scripts,
     signatures,
     table_items,
     table_metadatas,

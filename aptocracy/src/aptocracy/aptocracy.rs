@@ -16,8 +16,6 @@ pub struct Aptocracy {
     pub name: String,
     pub creator: String,
     pub default_role: String,
-    pub image: Option<String>,
-    pub description: Option<String>,
     pub governing_coin: String,
     pub governing_collection_info: String,
     pub invite_only: bool,
@@ -27,6 +25,8 @@ pub struct Aptocracy {
     pub treasury_count: i32,
     pub role_config: String,
     pub created_at: NaiveDateTime,
+    pub image: Option<String>,
+    pub description: Option<String>,
     pub main_treasury: Option<String>,
 }
 
