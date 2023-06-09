@@ -48,7 +48,7 @@ pub trait TransactionProcessor: Send + Sync + Debug {
                 Ok(conn) => {
                     GOT_CONNECTION.inc();
                     return conn;
-                }
+                },
                 Err(err) => {
                     UNABLE_TO_GET_CONNECTION.inc();
                     aptos_logger::error!(
@@ -56,7 +56,7 @@ pub trait TransactionProcessor: Send + Sync + Debug {
                         pool.connection_timeout(),
                         err
                     );
-                }
+                },
             };
         }
     }

@@ -29,7 +29,7 @@ const GAS_FEE_EVENT: &str = "0x1::aptos_coin::GasFeeEvent";
 // We will never have a negative number on chain so this will avoid collision in postgres
 const BURN_GAS_EVENT_CREATION_NUM: i64 = -1;
 const BURN_GAS_EVENT_INDEX: i64 = -1;
-const MAX_ENTRY_FUNCTION_LENGTH: usize = 100;
+pub const MAX_ENTRY_FUNCTION_LENGTH: usize = 100;
 
 type OwnerAddress = String;
 type CoinType = String;
@@ -129,10 +129,10 @@ impl CoinActivity {
             let (maybe_coin_info, maybe_coin_balance_data) =
                 if let APIWriteSetChange::WriteResource(write_resource) = wsc {
                     (
-                        CoinInfo::from_write_resource(&write_resource, txn_version, txn_timestamp)
+                        CoinInfo::from_write_resource(write_resource, txn_version, txn_timestamp)
                             .unwrap(),
                         CoinBalance::from_write_resource(
-                            &write_resource,
+                            write_resource,
                             txn_version,
                             txn_timestamp,
                         )

@@ -17,4 +17,5 @@ pub mod stake_models;
 pub mod token_models;
 pub mod transactions;
 pub mod user_transactions;
+pub mod v2_objects;
 pub mod write_set_changes;

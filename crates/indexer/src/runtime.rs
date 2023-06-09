@@ -56,7 +56,7 @@ impl MovingAverage {
                     } else {
                         break;
                     }
-                }
+                },
             }
         }
         self.avg()
@@ -127,7 +127,7 @@ pub async fn run_forever(config: IndexerConfig, context: Arc<Context>) {
     let processor: Arc<dyn TransactionProcessor> = match processor_enum {
         Processor::DefaultProcessor => {
             Arc::new(DefaultTransactionProcessor::new(conn_pool.clone()))
-        }
+        },
         Processor::TokenProcessor => Arc::new(TokenTransactionProcessor::new(
             conn_pool.clone(),
             config.ans_contract_address,
@@ -165,7 +165,6 @@ pub async fn run_forever(config: IndexerConfig, context: Arc<Context>) {
             );
             0
         }) as u64;
-    println!("s_data {}", starting_version_from_db_short);
     let start_version = match config.starting_version {
         None => starting_version_from_db_short,
         Some(version) => version,
@@ -236,7 +235,7 @@ pub async fn run_forever(config: IndexerConfig, context: Arc<Context>) {
                         "Error in '{}' while processing batch: {:?}",
                         processor_name, err
                     );
-                }
+                },
             };
             batch_start_version =
                 std::cmp::min(batch_start_version, processed_result.start_version);

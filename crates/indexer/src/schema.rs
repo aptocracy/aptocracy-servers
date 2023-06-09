@@ -104,6 +104,27 @@ diesel::table! {
 }
 
 diesel::table! {
+    collections_v2 (transaction_version, write_set_change_index) {
+        transaction_version -> Int8,
+        write_set_change_index -> Int8,
+        collection_id -> Varchar,
+        creator_address -> Varchar,
+        collection_name -> Varchar,
+        description -> Text,
+        uri -> Varchar,
+        current_supply -> Numeric,
+        max_supply -> Nullable<Numeric>,
+        total_minted_v2 -> Nullable<Numeric>,
+        mutable_description -> Nullable<Bool>,
+        mutable_uri -> Nullable<Bool>,
+        table_handle_v1 -> Nullable<Varchar>,
+        token_standard -> Varchar,
+        transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     current_ans_lookup (domain, subdomain) {
         domain -> Varchar,
         subdomain -> Varchar,
@@ -147,13 +168,56 @@ diesel::table! {
 }
 
 diesel::table! {
+    current_collections_v2 (collection_id) {
+        collection_id -> Varchar,
+        creator_address -> Varchar,
+        collection_name -> Varchar,
+        description -> Text,
+        uri -> Varchar,
+        current_supply -> Numeric,
+        max_supply -> Nullable<Numeric>,
+        total_minted_v2 -> Nullable<Numeric>,
+        mutable_description -> Nullable<Bool>,
+        mutable_uri -> Nullable<Bool>,
+        table_handle_v1 -> Nullable<Varchar>,
+        token_standard -> Varchar,
+        last_transaction_version -> Int8,
+        last_transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    current_delegated_staking_pool_balances (staking_pool_address) {
+        staking_pool_address -> Varchar,
+        total_coins -> Numeric,
+        total_shares -> Numeric,
+        last_transaction_version -> Int8,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     current_delegator_balances (delegator_address, pool_address, pool_type) {
         delegator_address -> Varchar,
         pool_address -> Varchar,
         pool_type -> Varchar,
         table_handle -> Varchar,
-        amount -> Numeric,
         last_transaction_version -> Int8,
+        inserted_at -> Timestamp,
+        shares -> Numeric,
+    }
+}
+
+diesel::table! {
+    current_objects (object_address) {
+        object_address -> Varchar,
+        owner_address -> Varchar,
+        state_key_hash -> Varchar,
+        allow_ungated_transfer -> Bool,
+        last_guid_creation_num -> Numeric,
+        last_transaction_version -> Int8,
+        is_deleted -> Bool,
         inserted_at -> Timestamp,
     }
 }
@@ -209,6 +273,25 @@ diesel::table! {
 }
 
 diesel::table! {
+    current_token_datas_v2 (token_data_id) {
+        token_data_id -> Varchar,
+        collection_id -> Varchar,
+        token_name -> Varchar,
+        maximum -> Nullable<Numeric>,
+        supply -> Numeric,
+        largest_property_version_v1 -> Nullable<Numeric>,
+        token_uri -> Varchar,
+        description -> Text,
+        token_properties -> Jsonb,
+        token_standard -> Varchar,
+        is_fungible_v2 -> Nullable<Bool>,
+        last_transaction_version -> Int8,
+        last_transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     current_token_ownerships (token_data_id_hash, property_version, owner_address) {
         token_data_id_hash -> Varchar,
         property_version -> Numeric,
@@ -227,6 +310,24 @@ diesel::table! {
 }
 
 diesel::table! {
+    current_token_ownerships_v2 (token_data_id, property_version_v1, owner_address, storage_id) {
+        token_data_id -> Varchar,
+        property_version_v1 -> Numeric,
+        owner_address -> Varchar,
+        storage_id -> Varchar,
+        amount -> Numeric,
+        table_type_v1 -> Nullable<Varchar>,
+        token_properties_mutated_v1 -> Nullable<Jsonb>,
+        is_soulbound_v2 -> Nullable<Bool>,
+        token_standard -> Varchar,
+        is_fungible_v2 -> Nullable<Bool>,
+        last_transaction_version -> Int8,
+        last_transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     current_token_pending_claims (token_data_id_hash, property_version, from_address, to_address) {
         token_data_id_hash -> Varchar,
         property_version -> Numeric,
@@ -241,6 +342,8 @@ diesel::table! {
         last_transaction_version -> Int8,
         inserted_at -> Timestamp,
         last_transaction_timestamp -> Timestamp,
+        token_data_id -> Varchar,
+        collection_id -> Varchar,
     }
 }
 
@@ -257,20 +360,20 @@ diesel::table! {
 }
 
 diesel::table! {
-    delegated_staking_pools (staking_pool_address) {
+    delegated_staking_pool_balances (transaction_version, staking_pool_address) {
+        transaction_version -> Int8,
         staking_pool_address -> Varchar,
-        first_transaction_version -> Int8,
+        total_coins -> Numeric,
+        total_shares -> Numeric,
         inserted_at -> Timestamp,
     }
 }
 
 diesel::table! {
-    deposit_record (treasury_address, member_address) {
-        treasury_address -> Text,
-        member_address -> Text,
-        aptocracy_address -> Text,
-        accumulated_amount -> Int8,
-        last_deposit -> Timestamp,
+    delegated_staking_pools (staking_pool_address) {
+        staking_pool_address -> Varchar,
+        first_transaction_version -> Int8,
+        inserted_at -> Timestamp,
     }
 }
 
@@ -367,6 +470,7 @@ diesel::table! {
         data -> Nullable<Jsonb>,
         is_deleted -> Bool,
         inserted_at -> Timestamp,
+        state_key_hash -> Varchar,
     }
 }
 
@@ -383,7 +487,21 @@ diesel::table! {
 }
 
 diesel::table! {
-    organization (address) {
+    objects (transaction_version, write_set_change_index) {
+        transaction_version -> Int8,
+        write_set_change_index -> Int8,
+        object_address -> Varchar,
+        owner_address -> Nullable<Varchar>,
+        state_key_hash -> Varchar,
+        guid_creation_num -> Nullable<Numeric>,
+        allow_ungated_transfer -> Nullable<Bool>,
+        is_deleted -> Bool,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+        organization (address) {
         address -> Text,
         name -> Text,
         creator -> Text,
@@ -400,7 +518,7 @@ diesel::table! {
         image -> Nullable<Text>,
         description -> Nullable<Text>,
         main_treasury -> Nullable<Text>,
-    }
+        }
 }
 
 diesel::table! {
@@ -532,6 +650,28 @@ diesel::table! {
 }
 
 diesel::table! {
+    token_activities_v2 (transaction_version, event_index) {
+        transaction_version -> Int8,
+        event_index -> Int8,
+        event_account_address -> Varchar,
+        token_data_id -> Varchar,
+        property_version_v1 -> Numeric,
+        #[sql_name = "type"]
+        type_ -> Varchar,
+        from_address -> Nullable<Varchar>,
+        to_address -> Nullable<Varchar>,
+        token_amount -> Numeric,
+        before_value -> Nullable<Text>,
+        after_value -> Nullable<Text>,
+        entry_function_id_str -> Nullable<Varchar>,
+        token_standard -> Varchar,
+        is_fungible_v2 -> Nullable<Bool>,
+        transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     token_datas (token_data_id_hash, transaction_version) {
         token_data_id_hash -> Varchar,
         transaction_version -> Int8,
@@ -559,6 +699,26 @@ diesel::table! {
 }
 
 diesel::table! {
+    token_datas_v2 (transaction_version, write_set_change_index) {
+        transaction_version -> Int8,
+        write_set_change_index -> Int8,
+        token_data_id -> Varchar,
+        collection_id -> Varchar,
+        token_name -> Varchar,
+        maximum -> Nullable<Numeric>,
+        supply -> Numeric,
+        largest_property_version_v1 -> Nullable<Numeric>,
+        token_uri -> Varchar,
+        token_properties -> Jsonb,
+        description -> Text,
+        token_standard -> Varchar,
+        is_fungible_v2 -> Nullable<Bool>,
+        transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     token_ownerships (token_data_id_hash, property_version, transaction_version, table_handle) {
         token_data_id_hash -> Varchar,
         property_version -> Numeric,
@@ -573,6 +733,25 @@ diesel::table! {
         inserted_at -> Timestamp,
         collection_data_id_hash -> Varchar,
         transaction_timestamp -> Timestamp,
+    }
+}
+
+diesel::table! {
+    token_ownerships_v2 (transaction_version, write_set_change_index) {
+        transaction_version -> Int8,
+        write_set_change_index -> Int8,
+        token_data_id -> Varchar,
+        property_version_v1 -> Numeric,
+        owner_address -> Nullable<Varchar>,
+        storage_id -> Varchar,
+        amount -> Numeric,
+        table_type_v1 -> Nullable<Varchar>,
+        token_properties_mutated_v1 -> Nullable<Jsonb>,
+        is_soulbound_v2 -> Nullable<Bool>,
+        token_standard -> Varchar,
+        is_fungible_v2 -> Nullable<Bool>,
+        transaction_timestamp -> Timestamp,
+        inserted_at -> Timestamp,
     }
 }
 
@@ -664,6 +843,16 @@ diesel::table! {
 }
 
 diesel::table! {
+    deposit_record (treasury_address, member_address) {
+        treasury_address -> Text,
+        member_address -> Text,
+        aptocracy_address -> Text,
+        accumulated_amount -> Int8,
+        last_deposit -> Timestamp,
+    }
+}
+
+diesel::table! {
     write_set_changes (transaction_version, index) {
         transaction_version -> Int8,
         index -> Int8,
@@ -687,43 +876,52 @@ diesel::allow_tables_to_appear_in_same_query!(
     coin_infos,
     coin_supply,
     collection_datas,
+    collections_v2,
     current_ans_lookup,
     current_coin_balances,
     current_collection_datas,
+    current_collections_v2,
+    current_delegated_staking_pool_balances,
     current_delegator_balances,
+    current_objects,
     current_staking_pool_voter,
     current_table_items,
     current_token_datas,
+    current_token_datas_v2,
     current_token_ownerships,
+    current_token_ownerships_v2,
     current_token_pending_claims,
     delegated_staking_activities,
+    delegated_staking_pool_balances,
     delegated_staking_pools,
-    deposit_record,
     events,
-    execution_step,
-    governance,
     indexer_status,
     ledger_infos,
-    member,
     move_modules,
     move_resources,
     nft_points,
-    organization,
+    objects,
     processor_status,
     processor_statuses,
-    proposal,
     proposal_votes,
+    execution_step,
+    member,
+    organization,
     scripts,
+    deposit_record,
     signatures,
     table_items,
     table_metadatas,
     token_activities,
+    token_activities_v2,
     token_datas,
+    token_datas_v2,
     token_ownerships,
+    token_ownerships_v2,
     tokens,
     transactions,
-    treasury,
     user_transactions,
+    treasury,
     vote_options,
     vote_record,
     write_set_changes,
